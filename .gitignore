@@ -13,3 +13,6 @@
 
 # IDE
 /.idea/
+
+# Dependency directories
+vendor/

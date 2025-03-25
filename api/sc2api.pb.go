@@ -1324,7 +1324,7 @@ func (*Response) XXX_OneofWrappers() []interface{} {
 	}
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // If successful, puts the game into the status: init_game.
 // The next expected request should be RequestJoinGame. Can also quit (exit).
 type RequestCreateGame struct {
@@ -1548,11 +1548,12 @@ func (m *ResponseCreateGame) GetErrorDetails() string {
 	return ""
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // If successful, puts the game into the status: in_game. Will be able to
 // request actions, observations and step the game.
 type RequestJoinGame struct {
 	// Types that are valid to be assigned to Participation:
+	//
 	//	*RequestJoinGame_Race
 	//	*RequestJoinGame_ObservedPlayerId
 	Participation isRequestJoinGame_Participation `protobuf_oneof:"participation"`
@@ -1796,7 +1797,7 @@ func (m *ResponseJoinGame) GetErrorDetails() string {
 	return ""
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestRestartGame struct {
 }
 
@@ -1894,9 +1895,10 @@ func (m *ResponseRestartGame) GetNeedHardReset() bool {
 	return false
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestStartReplay struct {
 	// Types that are valid to be assigned to Replay:
+	//
 	//	*RequestStartReplay_ReplayPath
 	//	*RequestStartReplay_ReplayData
 	Replay           isRequestStartReplay_Replay `protobuf_oneof:"replay"`
@@ -2080,7 +2082,7 @@ func (m *ResponseStartReplay) GetErrorDetails() string {
 	return ""
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestMapCommand struct {
 	TriggerCmd string `protobuf:"bytes,1,opt,name=trigger_cmd,json=triggerCmd,proto3" json:"trigger_cmd,omitempty"`
 }
@@ -2177,7 +2179,7 @@ func (m *ResponseMapCommand) GetErrorDetails() string {
 	return ""
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestLeaveGame struct {
 }
 
@@ -2250,7 +2252,7 @@ func (m *ResponseLeaveGame) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ResponseLeaveGame proto.InternalMessageInfo
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestQuickSave struct {
 }
 
@@ -2287,7 +2289,7 @@ func (m *RequestQuickSave) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RequestQuickSave proto.InternalMessageInfo
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type ResponseQuickSave struct {
 }
 
@@ -2324,7 +2326,7 @@ func (m *ResponseQuickSave) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ResponseQuickSave proto.InternalMessageInfo
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestQuickLoad struct {
 }
 
@@ -2361,7 +2363,7 @@ func (m *RequestQuickLoad) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RequestQuickLoad proto.InternalMessageInfo
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type ResponseQuickLoad struct {
 }
 
@@ -2398,7 +2400,7 @@ func (m *ResponseQuickLoad) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ResponseQuickLoad proto.InternalMessageInfo
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestQuit struct {
 }
 
@@ -2471,7 +2473,7 @@ func (m *ResponseQuit) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ResponseQuit proto.InternalMessageInfo
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestGameInfo struct {
 }
 
@@ -2592,7 +2594,7 @@ func (m *ResponseGameInfo) GetOptions() *InterfaceOptions {
 	return nil
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestObservation struct {
 	DisableFog bool   `protobuf:"varint,1,opt,name=disable_fog,json=disableFog,proto3" json:"disable_fog,omitempty"`
 	GameLoop   uint32 `protobuf:"varint,2,opt,name=game_loop,json=gameLoop,proto3" json:"game_loop,omitempty"`
@@ -2773,7 +2775,7 @@ func (m *ChatReceived) GetMessage() string {
 	return ""
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestAction struct {
 	Actions []*Action `protobuf:"bytes,1,rep,name=actions,proto3" json:"actions,omitempty"`
 }
@@ -2862,7 +2864,7 @@ func (m *ResponseAction) GetResult() []ActionResult {
 	return nil
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestObserverAction struct {
 	Actions []*ObserverAction `protobuf:"bytes,1,rep,name=actions,proto3" json:"actions,omitempty"`
 }
@@ -2943,7 +2945,7 @@ func (m *ResponseObserverAction) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ResponseObserverAction proto.InternalMessageInfo
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestStep struct {
 	Count uint32 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
 }
@@ -3032,7 +3034,7 @@ func (m *ResponseStep) GetSimulationLoop() uint32 {
 	return 0
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestData struct {
 	AbilityId  bool `protobuf:"varint,1,opt,name=ability_id,json=abilityId,proto3" json:"ability_id,omitempty"`
 	UnitTypeId bool `protobuf:"varint,2,opt,name=unit_type_id,json=unitTypeId,proto3" json:"unit_type_id,omitempty"`
@@ -3185,7 +3187,7 @@ func (m *ResponseData) GetEffects() []*EffectData {
 	return nil
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestSaveReplay struct {
 }
 
@@ -3266,9 +3268,10 @@ func (m *ResponseSaveReplay) GetData() []byte {
 	return nil
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestReplayInfo struct {
 	// Types that are valid to be assigned to Replay:
+	//
 	//	*RequestReplayInfo_ReplayPath
 	//	*RequestReplayInfo_ReplayData
 	Replay       isRequestReplayInfo_Replay `protobuf_oneof:"replay"`
@@ -3552,7 +3555,7 @@ func (m *ResponseReplayInfo) GetErrorDetails() string {
 	return ""
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestAvailableMaps struct {
 }
 
@@ -3644,7 +3647,7 @@ func (m *ResponseAvailableMaps) GetBattlenetMapNames() []string {
 	return nil
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Copies map data into the path specified.
 type RequestSaveMap struct {
 	MapPath string `protobuf:"bytes,1,opt,name=map_path,json=mapPath,proto3" json:"map_path,omitempty"`
@@ -3742,7 +3745,7 @@ func (m *ResponseSaveMap) GetError() ResponseSaveMap_Error {
 	return ResponseSaveMap_nil
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestPing struct {
 }
 
@@ -3847,7 +3850,7 @@ func (m *ResponsePing) GetBaseBuild() uint32 {
 	return 0
 }
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 type RequestDebug struct {
 	Debug []*DebugCommand `protobuf:"bytes,1,rep,name=debug,proto3" json:"debug,omitempty"`
 }
@@ -4710,6 +4713,7 @@ func (m *ActionError) GetResult() ActionResult {
 
 type ObserverAction struct {
 	// Types that are valid to be assigned to Action:
+	//
 	//	*ObserverAction_PlayerPerspective
 	//	*ObserverAction_CameraMove
 	//	*ObserverAction_CameraFollowPlayer

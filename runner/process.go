@@ -166,6 +166,7 @@ func defaultSc2Path() string {
 
 func sc2Path(path string) string {
 	for {
+		log.Printf("Checking: %v", path)
 		prev := path
 		path = filepath.Dir(path)
 

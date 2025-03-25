@@ -19,9 +19,11 @@ import (
 func main() {
 	runner.SetMap(runner.Random1v1Map())
 	//runner.SetGameVersion(76811, "FF9FA4EACEC5F06DEB27BD297D73ED67")
-
+	log.Printf("Set map")
 	agent := client.AgentFunc(generate)
+	log.Printf("Starting agent")
 	runner.RunAgent(client.NewParticipant(api.Race_Random, agent, "NilBot"))
+	log.Printf("Agent finished")
 }
 
 func generate(info client.AgentInfo) {
@@ -32,7 +34,7 @@ func generate(info client.AgentInfo) {
 	dumpUpgrades(info.Data().GetUpgrades())
 
 	if c, ok := info.(*client.Client); ok {
-		log.Printf("%v", c.Proto())
+		log.Printf("NEW VERSION: %v", c.Proto())
 		dumpVersion(c.Proto())
 	} else {
 		panic("Version info not found!")
@@ -141,19 +143,20 @@ func dumpUnits(units []*api.UnitTypeData) {
 	for _, unit := range units {
 		if unit.GetAvailable() && unit.Name != "" {
 			race := unit.Race.String()
+			unitName := strings.Replace(unit.Name, "@", "At", -1)
 			if race == "NoRace" {
 				race = "Neutral"
 			}
-			name := makeID(race + "_" + unit.Name)
+			name := makeID(race + "_" + unitName)
 
 			names = append(names, name)
 			values[name] = uint32(unit.UnitId)
 
-			namesByRace[race] = append(namesByRace[race], unit.Name)
+			namesByRace[race] = append(namesByRace[race], unitName)
 			if valuesByRace[race] == nil {
 				valuesByRace[race] = make(map[string]uint32)
 			}
-			valuesByRace[race][unit.Name] = uint32(unit.UnitId)
+			valuesByRace[race][unitName] = uint32(unit.UnitId)
 		}
 	}
 	sort.Strings(names)
@@ -184,6 +187,8 @@ func dumpUpgrades(upgrades []*api.UpgradeData) {
 }
 
 func dumpVersion(ping api.ResponsePing) {
+	log.Printf("Game Version: %v", ping.GameVersion)
+	log.Printf("Data Version: %v", ping.DataVersion)
 	file, err := os.Create("botutil/version.go")
 	check(err)
 	defer file.Close()
@@ -201,6 +206,7 @@ func dumpVersion(ping api.ResponsePing) {
 
 func makeID(id string) string {
 	id = strings.Replace(id, " ", "_", -1)
+	id = strings.Replace(id, "@", "At", -1)
 	for _, c := range id {
 		if !unicode.IsLetter(c) {
 			return "A_" + id

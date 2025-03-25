@@ -1289,6 +1289,7 @@ func (m *Effect) GetRadius() float32 {
 
 type ActionRaw struct {
 	// Types that are valid to be assigned to Action:
+	//
 	//	*ActionRaw_UnitCommand
 	//	*ActionRaw_CameraMove
 	//	*ActionRaw_ToggleAutocast
@@ -1388,6 +1389,7 @@ func (*ActionRaw) XXX_OneofWrappers() []interface{} {
 type ActionRawUnitCommand struct {
 	AbilityId AbilityID `protobuf:"varint,1,opt,name=ability_id,json=abilityId,proto3,casttype=AbilityID" json:"ability_id,omitempty"`
 	// Types that are valid to be assigned to Target:
+	//
 	//	*ActionRawUnitCommand_TargetWorldSpacePos
 	//	*ActionRawUnitCommand_TargetUnitTag
 	Target       isActionRawUnitCommand_Target `protobuf_oneof:"target"`

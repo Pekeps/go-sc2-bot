@@ -154,11 +154,14 @@ const (
 	DiggingClaws                       api.UpgradeID = 293
 	CarrierCarrierCapacity             api.UpgradeID = 294
 	CarrierLeashRangeUpgrade           api.UpgradeID = 295
-	TempestGroundAttackUpgrade         api.UpgradeID = 296
-	EnhancedShockwaves                 api.UpgradeID = 297
+	HurricaneThrusters                 api.UpgradeID = 296
+	TempestGroundAttackUpgrade         api.UpgradeID = 297
 	MicrobialShroud                    api.UpgradeID = 298
-	SunderingImpact                    api.UpgradeID = 299
-	AmplifiedShielding                 api.UpgradeID = 300
-	PsionicAmplifiers                  api.UpgradeID = 301
-	SecretedCoating                    api.UpgradeID = 302
+	InterferenceMatrix                 api.UpgradeID = 299
+	SunderingImpact                    api.UpgradeID = 300
+	AmplifiedShielding                 api.UpgradeID = 301
+	PsionicAmplifiers                  api.UpgradeID = 302
+	SecretedCoating                    api.UpgradeID = 303
+	EnhancedShockwaves                 api.UpgradeID = 304
+	Frenzy                             api.UpgradeID = 305
 )

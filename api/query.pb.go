@@ -152,7 +152,7 @@ func (m *ResponseQuery) GetPlacements() []*ResponseQueryBuildingPlacement {
 	return nil
 }
 
-//--------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------
 type RequestQueryPathing struct {
 	// Types that are valid to be assigned to Start:
 	//	*RequestQueryPathing_StartPos
@@ -290,7 +290,7 @@ func (m *ResponseQueryPathing) GetDistance() float32 {
 	return 0
 }
 
-//--------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------
 type RequestQueryAvailableAbilities struct {
 	UnitTag UnitTag `protobuf:"varint,1,opt,name=unit_tag,json=unitTag,proto3,casttype=UnitTag" json:"unit_tag,omitempty"`
 }
@@ -395,7 +395,7 @@ func (m *ResponseQueryAvailableAbilities) GetUnitTypeId() UnitTypeID {
 	return 0
 }
 
-//--------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------
 type RequestQueryBuildingPlacement struct {
 	AbilityId      AbilityID `protobuf:"varint,1,opt,name=ability_id,json=abilityId,proto3,casttype=AbilityID" json:"ability_id,omitempty"`
 	TargetPos      *Point2D  `protobuf:"bytes,2,opt,name=target_pos,json=targetPos,proto3" json:"target_pos,omitempty"`

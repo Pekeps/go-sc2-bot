@@ -61,3 +61,5 @@ func (a *mockAgentInfo) OnAfterStep(func()) {
 
 func (a *mockAgentInfo) SetPerfInterval(steps uint32) {
 }
+func (a *mockAgentInfo) SaveReplay(s string) {
+}

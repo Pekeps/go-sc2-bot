@@ -3,17 +3,17 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"gopkg.in/src-d/go-git.v4"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"gopkg.in/src-d/go-git.v4"
 )
 
 func main() {
 	// Checkout a temp copy of the API files
-	dir, err := ioutil.TempDir("", "s2client-proto")
+	dir, err := os.MkdirTemp("", "s2client-proto")
 	check(err)
 	defer os.RemoveAll(dir)
 
@@ -35,13 +35,13 @@ func main() {
 
 	// Get all the .proto files
 	protoDir := filepath.Join(dir, "s2clientprotocol")
-	files, err := ioutil.ReadDir(protoDir)
+	files, err := os.ReadDir(protoDir)
 	check(err)
 
 	s := string(os.PathSeparator)
 	protocArgs := []string{
-		"-I=" + os.Getenv("GOPATH") + s + "src" + s + "github.com" + s + "gogo" + s + "protobuf" + s + "gogoproto",
-		"-I=" + os.Getenv("GOPATH") + s + "src" + s + "github.com" + s + "gogo" + s + "protobuf" + s + "protobuf",
+		"-I=" + "vendor" + s + "github.com" + s + "gogo" + s + "protobuf" + s + "gogoproto",
+		"-I=" + "vendor" + s + "github.com" + s + "gogo" + s + "protobuf" + s + "proto",
 		"--proto_path=" + protoDir,
 		"--gogofaster_out=api",
 	}
