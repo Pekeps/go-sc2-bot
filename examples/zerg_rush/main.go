@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-
 	"github.com/pekeps/go-sc2ai/api"
 	"github.com/pekeps/go-sc2ai/botutil"
 	"github.com/pekeps/go-sc2ai/client"
@@ -15,8 +13,6 @@ func main() {
 
 	// Create the agent and then start the game
 	botutil.SetGameVersion()
-	log.Printf("Set game version to %v", botutil.GameVersion)
 	agent := client.AgentFunc(runAgent)
-	log.Printf("Starting agent")
 	runner.RunAgent(client.NewParticipant(api.Race_Zerg, agent, "ZergRush"))
 }
