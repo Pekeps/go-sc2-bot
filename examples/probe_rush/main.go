@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/botutil"
-	"github.com/chippydip/go-sc2ai/client"
-	"github.com/chippydip/go-sc2ai/runner"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/botutil"
+	"github.com/pekeps/go-sc2ai/client"
+	"github.com/pekeps/go-sc2ai/runner"
 )
 
 func main() {

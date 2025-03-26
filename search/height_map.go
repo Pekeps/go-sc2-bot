@@ -1,7 +1,7 @@
 package search
 
 import (
-	"github.com/chippydip/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/api"
 )
 
 // HeightMap ...

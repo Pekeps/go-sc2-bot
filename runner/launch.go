@@ -10,7 +10,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/chippydip/go-sc2ai/client"
+	"github.com/pekeps/go-sc2ai/client"
 )
 
 var (

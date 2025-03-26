@@ -1,10 +1,10 @@
 package botutil
 
 import (
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/enums/ability"
-	"github.com/chippydip/go-sc2ai/enums/buff"
-	"github.com/chippydip/go-sc2ai/enums/unit"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/enums/ability"
+	"github.com/pekeps/go-sc2ai/enums/buff"
+	"github.com/pekeps/go-sc2ai/enums/unit"
 )
 
 // Unit combines the api Unit with it's UnitTypeData and adds some additional convenience methods.

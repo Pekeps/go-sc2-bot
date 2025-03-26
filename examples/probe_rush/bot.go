@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/botutil"
-	"github.com/chippydip/go-sc2ai/client"
-	"github.com/chippydip/go-sc2ai/enums/ability"
-	"github.com/chippydip/go-sc2ai/enums/protoss"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/botutil"
+	"github.com/pekeps/go-sc2ai/client"
+	"github.com/pekeps/go-sc2ai/enums/ability"
+	"github.com/pekeps/go-sc2ai/enums/protoss"
 )
 
 type bot struct {

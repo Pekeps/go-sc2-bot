@@ -5,8 +5,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/chippydip/go-sc2ai/client"
-	"github.com/chippydip/go-sc2ai/runner"
+	"github.com/pekeps/go-sc2ai/client"
+	"github.com/pekeps/go-sc2ai/runner"
 )
 
 // Bot ...

@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/botutil"
-	"github.com/chippydip/go-sc2ai/enums/neutral"
-	"github.com/chippydip/go-sc2ai/enums/zerg"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/botutil"
+	"github.com/pekeps/go-sc2ai/enums/neutral"
+	"github.com/pekeps/go-sc2ai/enums/zerg"
 )
 
 var benchUnits []*api.Unit

@@ -2,7 +2,7 @@
 package client
 
 import (
-	"github.com/chippydip/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/api"
 )
 
 func (c *connection) createGame(createGame api.RequestCreateGame) (*api.ResponseCreateGame, error) {

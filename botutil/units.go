@@ -3,8 +3,8 @@ package botutil
 import (
 	"math"
 
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/enums/ability"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/enums/ability"
 )
 
 // Units ...

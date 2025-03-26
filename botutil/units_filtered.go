@@ -1,7 +1,7 @@
 package botutil
 
 import (
-	"github.com/chippydip/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/api"
 )
 
 const (

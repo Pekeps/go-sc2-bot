@@ -2,7 +2,7 @@
 package ability
 
 import (
-	"github.com/chippydip/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/api"
 )
 
 // Remap returns the more generic version of the given ability (if any).

@@ -3,8 +3,8 @@ package search
 import (
 	"math"
 
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/botutil"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/botutil"
 )
 
 // Cluster breaks a list of units into clusters based on the given clustering distance.

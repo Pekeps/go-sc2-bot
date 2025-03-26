@@ -1,4 +1,4 @@
-module github.com/chippydip/go-sc2ai
+module github.com/pekeps/go-sc2ai
 
 require (
 	github.com/gogo/protobuf v1.3.2

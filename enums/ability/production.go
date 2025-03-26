@@ -2,8 +2,8 @@
 package ability
 
 import (
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/enums/unit"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/enums/unit"
 )
 
 // Produces returns the UnitTypeID produced by the given AbilityID.

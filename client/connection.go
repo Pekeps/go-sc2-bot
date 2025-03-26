@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/chippydip/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/api"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gorilla/websocket"
 )

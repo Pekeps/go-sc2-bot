@@ -3,10 +3,10 @@ package search
 import (
 	"log"
 
-	"github.com/chippydip/go-sc2ai/api"
-	"github.com/chippydip/go-sc2ai/botutil"
-	"github.com/chippydip/go-sc2ai/enums/ability"
-	"github.com/chippydip/go-sc2ai/enums/unit"
+	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/botutil"
+	"github.com/pekeps/go-sc2ai/enums/ability"
+	"github.com/pekeps/go-sc2ai/enums/unit"
 )
 
 var sizeCache = map[api.UnitTypeID]api.Size2DI{}
