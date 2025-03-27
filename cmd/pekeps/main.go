@@ -6,21 +6,18 @@ import (
 	"github.com/pekeps/go-sc2ai/api"
 	"github.com/pekeps/go-sc2ai/botutil"
 	"github.com/pekeps/go-sc2ai/client"
-	"github.com/pekeps/go-sc2ai/enums/zerg"
+	"github.com/pekeps/go-sc2ai/managers"
 	"github.com/pekeps/go-sc2ai/runner"
 	"github.com/pekeps/go-sc2ai/search"
 )
 
 type bot struct {
 	*botutil.Bot
+	*search.Map
 
-	myStartLocation api.Point2D
-	myBases         []search.Base
+	*managers.Hub
 
-	enemyStartLocation api.Point2D
-	enemyBases         []search.Base
-
-	availableBases []search.Base
+	loop uint32
 }
 
 func main() {
@@ -29,7 +26,7 @@ func main() {
 
 	// Create the agent and then start the game
 	botutil.SetGameVersion()
-	agent := client.AgentFunc(runAgent)
+	var agent client.AgentFunc = runAgent
 	runner.RunAgent(client.NewParticipant(api.Race_Zerg, agent, "pekeps"))
 }
 
@@ -40,38 +37,26 @@ func runAgent(info client.AgentInfo) {
 	bot.init()
 
 	for bot.IsInGame() {
+		bot.loop = bot.Observation().GetObservation().GameLoop
 		bot.macro()
-		bot.micro()
 
 		if err := bot.Step(1); err != nil {
 			log.Print(err)
 			break
 		}
 	}
+
+	bot.destruct()
 }
 
 func (bot *bot) init() {
-	bot.initLocations()
-	// Send a friendly hello
+	log.Printf("Initializing pekeps bot")
+	bot.Hub = managers.NewHub(bot.Bot)
+
 	bot.Chat("(glhf)")
 
 }
 
-func (bot *bot) initLocations() {
-	bot.myStartLocation = bot.Self[zerg.Hatchery].First().Pos2D()
-	bot.enemyStartLocation = *bot.GameInfo().StartRaw.StartLocations[0]
-
-	log.Printf("My start location: %v", bot.myStartLocation)
-	log.Printf("Enemy start location: %v", bot.enemyStartLocation)
-
-	for _, base := range bot.availableBases {
-		log.Printf("Expansion at %v", base.Location)
-	}
-}
-
-func (bot *bot) macro() {
-
-}
-
-func (bot *bot) micro() {
+func (bot *bot) destruct() {
+	log.Printf("Pekeps bot destructing")
 }
