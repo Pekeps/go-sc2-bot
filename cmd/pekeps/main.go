@@ -6,6 +6,7 @@ import (
 	"github.com/pekeps/go-sc2ai/api"
 	"github.com/pekeps/go-sc2ai/botutil"
 	"github.com/pekeps/go-sc2ai/client"
+	"github.com/pekeps/go-sc2ai/debug"
 	"github.com/pekeps/go-sc2ai/managers"
 	"github.com/pekeps/go-sc2ai/runner"
 	"github.com/pekeps/go-sc2ai/search"
@@ -14,6 +15,7 @@ import (
 type bot struct {
 	*botutil.Bot
 	*search.Map
+	*debug.Debugger
 
 	*managers.Hub
 
@@ -37,9 +39,9 @@ func runAgent(info client.AgentInfo) {
 	bot.init()
 
 	for bot.IsInGame() {
-		bot.loop = bot.Observation().GetObservation().GameLoop
+		bot.loop++
 		bot.macro()
-
+		bot.micro()
 		if err := bot.Step(1); err != nil {
 			log.Print(err)
 			break
@@ -52,6 +54,7 @@ func runAgent(info client.AgentInfo) {
 func (bot *bot) init() {
 	log.Printf("Initializing pekeps bot")
 	bot.Hub = managers.NewHub(bot.Bot)
+	bot.Debugger = debug.NewDebugger(bot.AgentInfo)
 
 	bot.Chat("(glhf)")
 
