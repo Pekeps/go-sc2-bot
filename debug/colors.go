@@ -3,7 +3,7 @@ package debug
 import "github.com/pekeps/go-sc2ai/api"
 
 var (
-	White = &api.Color{R: 255, G: 255, B: 255}
+	white = &api.Color{R: 255, G: 255, B: 255}
 	black = &api.Color{R: 0, G: 0, B: 0}
 
 	red    = &api.Color{R: 255, G: 1, B: 1}

@@ -8,11 +8,13 @@ import (
 )
 
 type Debugger struct {
+	bot      client.AgentInfo
 	graphics *GraphicalDebugger
 }
 
 func NewDebugger(bot client.AgentInfo) *Debugger {
 	return &Debugger{
+		bot:      bot,
 		graphics: NewGraphicalDebugger(bot),
 	}
 }
@@ -46,4 +48,14 @@ func (debugger *Debugger) DrawText(text string, opts ...Option) {
 
 func (debugger *Debugger) DrawTextSlice(texts []string, opts ...Option) {
 	debugger.DrawText(strings.Join(texts, "\n"), opts...)
+}
+
+func (debugger *Debugger) DrawUnits() {
+	// Clear previous debug elements
+	debugger.graphics.Clear()
+	for _, unit := range debugger.bot.Observation().Observation.RawData.Units {
+		if unit.GetDisplayType() == api.DisplayType_Visible {
+			debugger.graphics.AddUnit(unit, nil, true)
+		}
+	}
 }

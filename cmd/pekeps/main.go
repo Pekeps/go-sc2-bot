@@ -42,6 +42,7 @@ func runAgent(info client.AgentInfo) {
 		bot.loop++
 		bot.macro()
 		bot.micro()
+		bot.Debugger.DrawUnits()
 		if err := bot.Step(1); err != nil {
 			log.Print(err)
 			break

@@ -33,8 +33,6 @@ func (m *EconomyManager) Init() {
 func (m *EconomyManager) Manage(loop uint32) {
 	m.update(m.bot.Observation().Observation.PlayerCommon)
 
-	go m.printDebug()
-
 	if m.getSupplyLeft() < 2 && m.larvae.Len() > 0 {
 		if m.bot.BuildUnit(zerg.Larva, ability.Train_Overlord) {
 			return
