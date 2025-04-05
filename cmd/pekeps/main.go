@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/pekeps/go-sc2ai/api"
 	"github.com/pekeps/go-sc2ai/botutil"
+	"github.com/pekeps/go-sc2ai/builds"
 	"github.com/pekeps/go-sc2ai/client"
 	"github.com/pekeps/go-sc2ai/debug"
 	"github.com/pekeps/go-sc2ai/managers"
@@ -14,12 +16,10 @@ import (
 
 type bot struct {
 	*botutil.Bot
-	*search.Map
-	*debug.Debugger
 
-	*managers.Hub
-
-	loop uint32
+	gameMap  *search.Map
+	debugger *debug.Debugger
+	managers []managers.Manager
 }
 
 func main() {
@@ -39,10 +39,13 @@ func runAgent(info client.AgentInfo) {
 	bot.init()
 
 	for bot.IsInGame() {
-		bot.loop++
-		bot.macro()
-		bot.micro()
-		bot.Debugger.DrawUnits()
+		bot.debugger.DebugPanel.AddEntry(fmt.Sprintf("Supply %d/%d", bot.Player.GetFoodUsed(), bot.Player.GetFoodCap()))
+		bot.debugger.DebugPanel.AddEntry("")
+		bot.executeManagers()
+		buildRequests := bot.getBuildRequests()
+		bot.handleBuildRequests(buildRequests)
+
+		bot.debugger.Draw()
 		if err := bot.Step(1); err != nil {
 			log.Print(err)
 			break
@@ -54,8 +57,17 @@ func runAgent(info client.AgentInfo) {
 
 func (bot *bot) init() {
 	log.Printf("Initializing pekeps bot")
-	bot.Hub = managers.NewHub(bot.Bot)
-	bot.Debugger = debug.NewDebugger(bot.AgentInfo)
+	bot.gameMap = search.NewMap(bot.Bot)
+	bot.debugger = debug.NewDebugger(bot.Bot, bot.UnitContext)
+
+	bot.managers = []managers.Manager{
+		managers.NewEconomyManager(bot.Player),
+		managers.NewBuildManager(builds.LingFlood(), bot.Player),
+	}
+
+	for _, manager := range bot.managers {
+		manager.Init()
+	}
 
 	bot.Chat("(glhf)")
 
@@ -63,4 +75,18 @@ func (bot *bot) init() {
 
 func (bot *bot) destruct() {
 	log.Printf("Pekeps bot destructing")
+}
+
+func (bot *bot) executeManagers() {
+	for _, manager := range bot.managers {
+		manager.Manage()
+	}
+}
+
+func (bot *bot) getBuildRequests() []*builds.BuildRequest {
+	var requests []*builds.BuildRequest
+	for _, manager := range bot.managers {
+		requests = append(requests, manager.GetBuildRequests()...)
+	}
+	return requests
 }

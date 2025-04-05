@@ -4,11 +4,13 @@ import (
 	"strings"
 
 	"github.com/pekeps/go-sc2ai/api"
+	"github.com/pekeps/go-sc2ai/botutil"
 	"github.com/pekeps/go-sc2ai/client"
 	"github.com/pekeps/go-sc2ai/enums/ability"
 	"github.com/pekeps/go-sc2ai/enums/unit"
 )
 
+// GraphicalDebugger is responsible for drawing primitive debug elements.
 type GraphicalDebugger struct {
 	bot     client.AgentInfo
 	texts   []*api.DebugText
@@ -17,123 +19,138 @@ type GraphicalDebugger struct {
 	spheres []*api.DebugSphere
 }
 
+// NewGraphicalDebugger creates a new GraphicalDebugger and registers its Draw method
+// to be called after each game step.
 func NewGraphicalDebugger(bot client.AgentInfo) *GraphicalDebugger {
-	graphicalDebugger := &GraphicalDebugger{
+	gd := &GraphicalDebugger{
 		bot: bot,
 	}
-
-	// Register the Draw method to be called after each step
+	// Register the Draw callback so that debug commands are sent every step.
 	bot.OnAfterStep(func() {
-		graphicalDebugger.Draw()
-	})
+		if len(gd.texts) == 0 && len(gd.lines) == 0 && len(gd.boxes) == 0 && len(gd.spheres) == 0 {
+			println("Nothing to draw")
+		} else {
+			println("drawing")
+		}
+		gd.Draw()
 
-	return graphicalDebugger
+	})
+	return gd
 }
 
-func (debugger *GraphicalDebugger) Draw() {
-	// Draw the debug elements on the screen
-	debugger.bot.SendDebugCommands([]*api.DebugCommand{
+// Draw sends the accumulated debug commands (text, lines, boxes, spheres) to the bot.
+func (gd *GraphicalDebugger) Draw() {
+	gd.bot.SendDebugCommands([]*api.DebugCommand{
 		{
 			Command: &api.DebugCommand_Draw{
 				Draw: &api.DebugDraw{
-					Text:    debugger.texts,
-					Lines:   debugger.lines,
-					Boxes:   debugger.boxes,
-					Spheres: debugger.spheres,
+					Text:    gd.texts,
+					Lines:   gd.lines,
+					Boxes:   gd.boxes,
+					Spheres: gd.spheres,
 				},
 			},
 		},
 	})
+	gd.Clear()
 }
 
-func (d *GraphicalDebugger) Clear() {
-	d.texts = []*api.DebugText{}
-	d.lines = []*api.DebugLine{}
-	d.boxes = []*api.DebugBox{}
-	d.spheres = []*api.DebugSphere{}
+// Clear resets all debug elements.
+func (gd *GraphicalDebugger) Clear() {
+	gd.texts = []*api.DebugText{}
+	gd.lines = []*api.DebugLine{}
+	gd.boxes = []*api.DebugBox{}
+	gd.spheres = []*api.DebugSphere{}
 }
 
-func (d *GraphicalDebugger) AddText(text string, size uint32, virtualPos *api.Point, worldPos *api.Point, color *api.Color) {
-	debugText := &api.DebugText{
+// AddText adds a new debug text element.
+func (gd *GraphicalDebugger) AddText(text string, size uint32, virtualPos *api.Point, worldPos *api.Point, color *api.Color) {
+	dt := &api.DebugText{
 		Text:       text,
 		Color:      color,
 		Size_:      size,
 		VirtualPos: virtualPos,
 		WorldPos:   worldPos,
 	}
-	d.texts = append(d.texts, debugText)
+	gd.texts = append(gd.texts, dt)
 }
 
-func (d *GraphicalDebugger) AddSphere(pos *api.Point, radius float32, color *api.Color) {
-	debugSphere := &api.DebugSphere{
+// AddSphere adds a debug sphere at the given position.
+func (gd *GraphicalDebugger) AddSphere(pos *api.Point, radius float32, color *api.Color) {
+	ds := &api.DebugSphere{
 		Color: color,
 		P:     pos,
 		R:     radius,
 	}
-	d.spheres = append(d.spheres, debugSphere)
+	gd.spheres = append(gd.spheres, ds)
 }
 
-func (d *GraphicalDebugger) AddLine(start *api.Point, end *api.Point, color *api.Color) {
-	debugLine := &api.DebugLine{
+// AddLine adds a debug line from start to end.
+func (gd *GraphicalDebugger) AddLine(start *api.Point, end *api.Point, color *api.Color) {
+	dl := &api.DebugLine{
 		Color: color,
 		Line: &api.Line{
 			P0: start,
 			P1: end,
 		},
 	}
-	d.lines = append(d.lines, debugLine)
+	gd.lines = append(gd.lines, dl)
 }
 
-func (g *GraphicalDebugger) AddUnit(u *api.Unit, color *api.Color, drawOrders bool) {
+// AddUnit draws a unit's sphere and label, and optionally its orders.
+func (gd *GraphicalDebugger) AddUnit(u *botutil.Unit, color *api.Color, drawOrders bool) {
 	if color == nil {
 		color = unitColor(u)
 	}
-	// First part is always race prefix
-	unitName := strings.Split(unit.String(u.GetUnitType()), "_")[1]
-
-	g.AddSphere(u.Pos, u.Radius, color)
-	g.AddText(unitName, 8, nil, u.Pos, color)
+	// Use a part of the unit type string as its label.
+	parts := strings.Split(unit.String(u.GetUnitType()), "_")
+	unitName := ""
+	if len(parts) > 1 {
+		unitName = parts[1]
+	} else {
+		unitName = unit.String(u.GetUnitType())
+	}
+	gd.AddSphere(u.Pos, u.Radius, color)
+	gd.AddText(unitName, 8, nil, u.Pos, color)
 	if drawOrders {
-		g.drawOrders(u)
+		gd.drawOrders(u)
 	}
 }
-func (g *GraphicalDebugger) drawOrders(u *api.Unit) {
+
+// drawOrders draws lines representing the orders of the given unit.
+func (gd *GraphicalDebugger) drawOrders(u *botutil.Unit) {
 	orders := u.GetOrders()
 	for _, order := range orders {
 		abilityId := ability.Remap(order.GetAbilityId())
 		target := order.GetTargetWorldSpacePos()
-		var targetPoint *api.Point = nil
+		var targetPoint *api.Point
 		if target != nil {
-			target.Z = u.Pos.Z
+			target.Z = u.Pos.Z // keep the target at the same height as the unit
 			targetDistance := u.Pos.Distance(*target)
 			offsetPoint := u.Pos.Offset(*target, targetDistance)
 			targetPoint = &offsetPoint
 		}
-		if abilityId == ability.Move {
-			g.AddLine(u.Pos, targetPoint, white)
-		}
-		if abilityId == ability.Attack {
-			g.AddLine(u.Pos, targetPoint, red)
-		}
-
-		// TODO Base and resource target is nil
-		if abilityId == ability.Harvest_Gather || abilityId == ability.Harvest_Return {
-			g.AddLine(u.Pos, targetPoint, blue)
+		switch abilityId {
+		case ability.Move:
+			gd.AddLine(u.Pos, targetPoint, white)
+		case ability.Attack:
+			gd.AddLine(u.Pos, targetPoint, red)
+		case ability.Harvest_Gather, ability.Harvest_Return:
+			gd.AddLine(u.Pos, targetPoint, blue)
 		}
 	}
 }
 
-func unitColor(unit *api.Unit) *api.Color {
-	alliance := unit.Alliance
-	if alliance == api.Alliance_Self {
+// unitColor returns a default color for a unit based on its alliance.
+func unitColor(u *botutil.Unit) *api.Color {
+	switch u.Alliance {
+	case api.Alliance_Self:
 		return lightGreen
-	}
-	if alliance == api.Alliance_Enemy {
+	case api.Alliance_Enemy:
 		return lightRed
-	}
-	if alliance == api.Alliance_Neutral {
+	case api.Alliance_Neutral:
 		return lightYellow
+	default:
+		return lightPurple
 	}
-
-	return lightPurple
 }

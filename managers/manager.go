@@ -1,7 +1,10 @@
 package managers
 
-type manager interface {
+import "github.com/pekeps/go-sc2ai/builds"
+
+type Manager interface {
 	Init()
-	Manage(loop uint32)
-	Destruct()
+	Manage()
+
+	GetBuildRequests() []*builds.BuildRequest
 }
